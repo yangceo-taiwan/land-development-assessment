@@ -3,140 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【V9.0】台南土地開發財務決策系統｜實務修正版</title>
+    <title>【V10.0】台南土地開發財務決策系統｜法規內建版</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-dark: #2C3E50;
-            --primary-gold: #C5A065;
-            --primary-light: #EBF5FB;
-            --accent-red: #E74C3C;
-            --accent-green: #27AE60;
-            --bg-body: #F7F9FA;
+            --primary-dark: #2C3E50;    /* 專業深藍 */
+            --primary-gold: #C5A065;    /* 質感金 */
+            --primary-light: #ECF0F1;   /* 淺灰底 */
+            --accent-red: #C0392B;      /* 強調紅 */
+            --accent-green: #27AE60;    /* 成功綠 */
+            --bg-body: #F4F6F6;
             --bg-card: #FFFFFF;
-            --border: #E1E4E8;
-            --shadow: 0 4px 20px rgba(0,0,0,0.05);
+            --border: #D5D8DC;
         }
 
         * { box-sizing: border-box; outline: none; }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-body); color: #333; margin: 0; padding: 30px; line-height: 1.6; font-size: 15px; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-body); color: #333; margin: 0; padding: 20px; line-height: 1.6; font-size: 15px; }
 
-        /* Layout */
-        .container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 30px; }
-        @media(min-width: 1024px) { .container { grid-template-columns: 380px 1fr; } }
+        /* Badge */
+        .internal-badge { background: var(--primary-gold); color: white; padding: 5px 15px; border-radius: 4px; font-size: 0.8rem; position: fixed; top: 20px; right: 20px; z-index: 999; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
         /* Header */
-        .header { text-align: center; margin-bottom: 40px; }
-        .logo-group img { height: 60px; margin: 0 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-        .header h1 { color: var(--primary-dark); font-size: 2rem; font-weight: 800; margin: 15px 0 5px; letter-spacing: 1px; }
-        .header .subtitle { color: #7F8C8D; font-size: 1rem; font-weight: 500; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo-group img { height: 60px; margin: 0 10px; vertical-align: middle; }
+        .header h1 { color: var(--primary-dark); font-size: 1.8rem; margin: 15px 0 5px; font-weight: 800; }
+        .header .subtitle { color: #7F8C8D; font-size: 1rem; }
+
+        /* Layout */
+        .container { display: grid; grid-template-columns: 1fr; gap: 25px; max-width: 1400px; margin: 0 auto; }
+        @media(min-width: 1200px) { .container { grid-template-columns: 400px 1fr; } }
 
         /* Cards */
-        .card { 
-            background: var(--bg-card); 
-            border-radius: 16px; 
-            padding: 25px; 
-            box-shadow: var(--shadow); 
-            border: 1px solid #FFF;
-            transition: transform 0.2s ease;
-            margin-bottom: 25px;
-        }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        
-        .card-header { 
-            font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); 
-            padding-bottom: 15px; margin-bottom: 20px; 
-            border-bottom: 2px solid var(--primary-light);
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #FFF; margin-bottom: 20px; transition: 0.3s; }
+        .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .card-header { font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); border-bottom: 2px solid var(--primary-light); padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
 
         /* Inputs */
         .input-group { margin-bottom: 15px; }
-        .input-row { display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-end; }
+        .input-row { display: flex; gap: 10px; margin-bottom: 12px; align-items: flex-end; }
         .input-col { flex: 1; }
-        .label { display: block; font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 6px; }
-        
-        .input { 
-            width: 100%; padding: 10px 15px; 
-            border: 1px solid #DDD; border-radius: 8px; 
-            text-align: right; font-size: 1rem; font-family: 'Consolas', monospace;
-            background: #FAFAFA; transition: 0.2s; 
-        }
-        .input:focus { border-color: var(--primary-gold); background: #FFF; box-shadow: 0 0 0 3px rgba(197, 160, 101, 0.15); }
-        .input-readonly { background: #F2F4F6; color: #7F8C8D; cursor: default; border-color: transparent; }
-        select.input { text-align: left; cursor: pointer; }
+        .label { display: block; font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 5px; }
+        .input { width: 100%; padding: 10px; border: 1px solid #BDC3C7; border-radius: 6px; text-align: right; font-size: 1rem; font-family: 'Consolas', monospace; background: #FAFAFA; }
+        .input:focus { border-color: var(--primary-dark); background: #FFF; }
+        .input-readonly { background: #EAECEE; color: #7F8C8D; cursor: default; }
+        select.input { text-align: left; }
 
-        /* Highlight Input (Editable Sales Area) */
-        .input-highlight {
-            border: 2px solid var(--primary-gold); background: #FFFBF0; color: var(--primary-dark); font-weight: bold; font-size: 1.2rem;
-        }
-
-        /* Feedback Text */
-        .calc-feedback { font-size: 0.8rem; color: var(--primary-gold); font-weight: 600; text-align: right; margin-top: 4px; }
-        .hint-text { font-size: 0.8rem; color: #95A5A6; margin-top: 5px; line-height: 1.4; }
-
-        /* Buttons */
-        .btn-action { 
-            background: transparent; border: 1px solid var(--primary-dark); color: var(--primary-dark); 
-            padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; 
-            transition: 0.2s;
-        }
-        .btn-action:hover { background: var(--primary-dark); color: white; }
-        
-        .btn-print { 
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #34495E 100%); 
-            color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; 
-            font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; 
-            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.2); transition: 0.3s;
-        }
-        .btn-print:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(44, 62, 80, 0.3); }
+        /* Highlight Section */
+        .highlight-box { background: #FFF9C4; border: 1px dashed #F1C40F; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .input-highlight { border: 2px solid #F1C40F; background: #FFF; font-weight: bold; font-size: 1.2rem; color: #D35400; }
 
         /* Tables */
-        .table-box { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 25px; }
-        .table-header { background: var(--primary-light); padding: 12px 20px; font-weight: 700; color: var(--primary-dark); border-bottom: 1px solid var(--border); }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-        .data-table th, .data-table td { padding: 12px 20px; border-bottom: 1px solid #EEE; }
-        .data-table th { text-align: left; color: #666; font-weight: 500; width: 50%; background: #FCFCFC; }
-        .data-table td { text-align: right; font-family: 'Consolas', monospace; color: #2C3E50; font-weight: 600; }
+        .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 500px; }
+        .data-table th { background: var(--primary-dark); color: white; text-align: left; padding: 10px 15px; font-weight: 500; }
+        .data-table td { padding: 10px 15px; border-bottom: 1px solid #EEE; color: #333; }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table .num { text-align: right; font-family: 'Consolas', monospace; font-weight: 600; }
         
-        .row-total { background: #FEF9E7; }
-        .row-total th { color: #D35400; }
-        .row-total td { color: #D35400; font-size: 1.1rem; }
-        
-        .row-profit { background: #E8F8F5; }
-        .row-profit th { color: var(--accent-green); }
-        .row-profit td { color: var(--accent-green); font-size: 1.2rem; }
+        /* Regulation Table Styles */
+        .reg-table th { background: #EBF5FB; color: var(--primary-dark); font-weight: 700; border-bottom: 2px solid #AED6F1; }
+        .reg-table td { vertical-align: top; line-height: 1.6; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-right: 5px; }
+        .tag-bonus { background: #E8F8F5; color: #27AE60; border: 1px solid #27AE60; }
+        .tag-warn { background: #FEF9E7; color: #D35400; border: 1px solid #D35400; }
 
-        .val-neg { color: var(--accent-red); }
-
-        /* KPI Dashboard */
-        .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-        .kpi-card { background: #FFF; border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
-        .kpi-card.highlight { background: linear-gradient(135deg, var(--primary-dark), #34495E); color: white; border: none; }
-        .kpi-card.gold { background: linear-gradient(135deg, var(--primary-gold), #D4AC0D); color: white; border: none; }
-        .kpi-label { font-size: 0.8rem; opacity: 0.9; margin-bottom: 5px; }
-        .kpi-val { font-size: 1.4rem; font-weight: 700; }
+        /* Buttons */
+        .btn-fill { background: transparent; border: 1px solid var(--primary-dark); color: var(--primary-dark); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .btn-fill:hover { background: var(--primary-dark); color: white; }
+        .btn-print { background: var(--primary-dark); color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-print:hover { background: #34495E; }
 
         /* Tabs */
-        .tab-group { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 25px; }
-        .tab { padding: 12px 20px; cursor: pointer; font-size: 1rem; color: #95A5A6; font-weight: 600; border-bottom: 3px solid transparent; transition: 0.3s; }
-        .tab.active { color: var(--primary-dark); border-bottom-color: var(--primary-dark); }
+        .tab-group { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 20px; background: #FFF; border-radius: 8px 8px 0 0; }
+        .tab { padding: 15px 25px; cursor: pointer; font-size: 1rem; font-weight: 600; color: #95A5A6; border-bottom: 3px solid transparent; transition: 0.3s; }
+        .tab:hover { color: var(--primary-dark); }
+        .tab.active { color: var(--primary-dark); border-bottom-color: var(--primary-dark); background: #F8F9F9; }
         
-        .section-box { display: none; animation: fadeIn 0.3s ease; }
+        .section-box { display: none; animation: fadeIn 0.4s; }
         .section-box.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
+        /* Print */
         @media print {
             body { background: white; padding: 0; }
-            .btn-print, .btn-action, .internal-badge { display: none; }
+            .btn-print, .btn-fill, .internal-badge { display: none; }
             .card { box-shadow: none; border: 1px solid #000; break-inside: avoid; }
-            .section-box { display: block !important; }
+            .container { display: block; }
+            .section-box { display: block !important; margin-bottom: 30px; }
             .tab-group { display: none; }
         }
     </style>
 </head>
 <body>
+
+<div class="internal-badge">V10.0 旗艦版</div>
 
 <div class="header">
     <div class="logo-group">
@@ -144,33 +105,33 @@
         <img src="易丞logo-01.jpg">
     </div>
     <h1>台南土地開發財務決策系統</h1>
-    <div class="subtitle">V9.0 實務修正版｜可銷售面積手動校正｜財務精算</div>
+    <div class="subtitle">坪數制｜法規速查庫｜建蔽率檢討｜財務精算</div>
 </div>
 
 <div class="container">
     
     <div class="left-panel">
         
-        <div class="card" style="border-left: 5px solid var(--primary-gold);">
+        <div class="card" style="border-top: 4px solid var(--primary-gold);">
             <div class="card-header">
-                1. 基地條件與面積試算
-                <button class="btn-action" onclick="resetDefault()">重置</button>
+                1. 基地條件 (輸入坪數)
+                <button class="btn-fill" onclick="resetDefault()">重置</button>
             </div>
             
             <div class="input-row">
                 <div class="input-col">
-                    <label class="label">土地面積 (m²)</label>
-                    <input type="number" id="inSqm" class="input" value="172" oninput="calcBase()">
+                    <label class="label">土地面積 (坪)</label>
+                    <input type="number" id="inPing" class="input" value="52" oninput="calcArea()">
                 </div>
                 <div class="input-col">
-                    <label class="label">換算坪數</label>
-                    <input type="text" id="outPing" class="input input-readonly" readonly>
+                    <label class="label">換算 m²</label>
+                    <input type="text" id="outSqm" class="input input-readonly" readonly>
                 </div>
             </div>
 
             <div class="input-group">
                 <label class="label">開發模式</label>
-                <select id="inType" class="input" onchange="toggleMode(); calcBase();">
+                <select id="inType" class="input" onchange="toggleMode(); calcArea();">
                     <option value="tou-tian">透天 (依建蔽率與樓層)</option>
                     <option value="da-lou">大樓 (依容積率)</option>
                 </select>
@@ -179,34 +140,38 @@
             <div class="input-row">
                 <div class="input-col">
                     <label class="label">法定建蔽率 (%)</label>
-                    <input type="number" id="inBCR" class="input" value="50" oninput="calcBase()">
+                    <input type="number" id="inBCR" class="input" value="60" oninput="calcArea()">
                 </div>
                 <div class="input-col">
-                    <label class="label">總核定容積 (%)</label>
-                    <input type="number" id="inTotalVol" class="input" value="180" oninput="calcBase()">
+                    <label class="label">法定容積率 (%)</label>
+                    <input type="number" id="inFAR" class="input" value="200" oninput="calcArea()">
                 </div>
             </div>
 
-            <div style="background:#FFF9C4; padding:15px; border-radius:8px; border:1px dashed var(--primary-gold); margin-top:15px;">
+            <div class="highlight-box">
                 <div class="input-group">
-                    <label class="label" style="color:#D35400;">★ 實際可銷售總面積 (坪)</label>
+                    <label class="label" style="color:#D35400;">★ 實際可銷售總建坪</label>
                     <input type="number" id="inRealSaleArea" class="input input-highlight" value="0" oninput="calcFinance()">
-                    <div class="calc-feedback" id="fbEfficiency">坪效係數：0.00 倍</div>
+                    <div style="text-align:right; font-size:0.8rem; color:#D35400; margin-top:5px;" id="fbEfficiency">坪效：0.00 倍</div>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span id="txtEstArea" style="font-size:0.85rem; color:#666;">系統估算值：0 坪</span>
-                    <button class="btn-action" onclick="useEstimate()">帶入估算值</button>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                    <div style="font-size:0.85rem; color:#666;">
+                        系統估算：<span id="txtEstArea" style="font-weight:bold; color:var(--primary-dark)">0</span> 坪
+                    </div>
+                    <button class="btn-fill" onclick="useEstimate()">帶入估算</button>
                 </div>
-                <p class="hint-text">
-                    *系統估算僅供參考。透天受限於樓梯間、車位配置與法規上限，請依建築師檢討圖面為準，可直接修改上方數字。
+                <p style="font-size:0.75rem; color:#7F8C8D; margin-top:8px; line-height:1.4;">
+                    *透天估算參數已修正為法容之 <strong>1.35倍</strong> (含陽台/屋突/梯間)。<br>
+                    *請依建築師實際排版數字為準。
                 </p>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                2. 營收成本
-                <button class="btn-action" onclick="autoCost()">帶入公報</button>
+                2. 營收與成本
+                <button class="btn-fill" onclick="autoCost()">帶入公報</button>
             </div>
             <div class="input-row">
                 <div class="input-col">
@@ -223,21 +188,19 @@
                     <label class="label">土地成本 (萬/坪)</label>
                     <input type="number" id="inLandCost" class="input" value="40" oninput="calcFinance()">
                 </div>
-            </div>
-            <div class="input-row">
                 <div class="input-col">
                     <label class="label">營造單價 (萬/坪)</label>
                     <input type="number" id="inConstCost" class="input" value="10.5" oninput="calcFinance()">
                 </div>
-                <div class="input-col">
-                    <label class="label">管銷費率 (%)</label>
-                    <input type="number" id="inOverhead" class="input" value="14" oninput="calcFinance()">
-                </div>
+            </div>
+            <div class="input-group">
+                <label class="label">管銷費率 (%) <span style="font-weight:normal; color:#999; font-size:0.8rem;">(含設計/銷售/管理)</span></label>
+                <input type="number" id="inOverhead" class="input" value="14" oninput="calcFinance()">
             </div>
         </div>
 
-        <div class="card" style="border-left: 5px solid #3498DB;">
-            <div class="card-header">3. 土建融資</div>
+        <div class="card" style="border-left: 4px solid #3498DB;">
+            <div class="card-header">3. 土建融資設定</div>
             <div class="input-row">
                 <div class="input-col">
                     <label class="label">土融 (萬)</label>
@@ -273,117 +236,206 @@
             </div>
         </div>
 
-        <div class="card" style="border-left: 5px solid var(--accent-red);">
-            <div class="card-header">4. 稅務 (房地合一 2.0)</div>
-            <div class="input-row">
-                <div class="input-col">
-                    <label class="label">土地漲價數額</label>
-                    <input type="number" id="inLandIncBase" class="input" value="0" oninput="calcFinance()">
-                </div>
-                <div class="input-col">
-                    <label class="label">預估土增稅</label>
-                    <input type="number" id="inLandTax" class="input" value="0" oninput="calcFinance()">
-                </div>
-            </div>
-        </div>
-
-        <button class="btn-print" onclick="window.print()">🖨️ 列印報表 / 存成 PDF</button>
+        <button class="btn-print" onclick="window.print()">🖨️ 列印分析報告</button>
     </div>
 
     <div class="right-panel">
         
         <div class="tab-group">
             <div class="tab active" onclick="switchTab('tab1')">A. 財務損益表</div>
-            <div class="tab" onclick="switchTab('tab2')">B. 面積計算驗證</div>
+            <div class="tab" onclick="switchTab('tab2')">B. 法規速查 (免計/獎勵/容移)</div>
+            <div class="tab" onclick="switchTab('tab3')">C. 面積驗算明細</div>
         </div>
 
         <div id="tab1" class="section-box active">
             
-            <div class="kpi-row">
-                <div class="kpi-card highlight">
-                    <div class="kpi-label">預估總銷金額</div>
-                    <div class="kpi-val" id="kpiSales">0</div>
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px; margin-bottom:20px;">
+                <div class="card" style="background:#2C3E50; color:white; padding:15px; margin:0; text-align:center;">
+                    <div style="font-size:0.8rem; opacity:0.8;">預估總銷金額</div>
+                    <div style="font-size:1.4rem; font-weight:bold;" id="kpiSales">0</div>
                 </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">全案總成本</div>
-                    <div class="kpi-val" id="kpiTotalCost">0</div>
+                <div class="card" style="background:white; border:1px solid #BDC3C7; padding:15px; margin:0; text-align:center;">
+                    <div style="font-size:0.8rem; color:#7F8C8D;">全案總成本</div>
+                    <div style="font-size:1.4rem; font-weight:bold; color:#2C3E50;" id="kpiCost">0</div>
                 </div>
-                <div class="kpi-card gold">
-                    <div class="kpi-label">自有資金回報率 (ROE)</div>
-                    <div class="kpi-val" id="kpiROE">0%</div>
+                <div class="card" style="background:#F1C40F; color:#FFF; padding:15px; margin:0; text-align:center; border:none;">
+                    <div style="font-size:0.8rem; color:#7F8C8D; font-weight:bold;">自有資金回報率 (ROE)</div>
+                    <div style="font-size:1.4rem; font-weight:bold; color:#FFF;" id="kpiROE">0%</div>
                 </div>
             </div>
 
-            <div class="table-box">
-                <div class="table-header">專案損益預估 (Income Statement)</div>
+            <div class="table-container">
                 <table class="data-table">
-                    <tr>
-                        <th>(+) 房地總銷金額 <span class="hint-text">(依輸入之銷售面積計算)</span></th>
-                        <td id="tSales">0</td>
-                    </tr>
-                    <tr>
-                        <th style="padding-left:20px;">- 土地成本</th>
-                        <td id="tLandCost">0</td>
-                    </tr>
-                    <tr>
-                        <th style="padding-left:20px;">- 營建施工費</th>
-                        <td id="tConstCost">0</td>
-                    </tr>
-                    <tr>
-                        <th style="padding-left:20px;">- 管銷費用</th>
-                        <td id="tOverhead">0</td>
-                    </tr>
-                    <tr>
-                        <th style="padding-left:20px;">- 融資利息 <span class="val-neg" style="font-size:0.8rem">(建融動用60%)</span></th>
-                        <td id="tInterest" style="color:#C0392B">0</td>
-                    </tr>
-                    <tr class="row-total">
-                        <th>(=) 稅前淨利 (EBIT)</th>
-                        <td id="tPreTax">0</td>
-                    </tr>
-                    <tr>
-                        <th>(-) 稅負 (土增+房地合一)</th>
-                        <td class="val-neg" id="tTax">0</td>
-                    </tr>
-                    <tr class="row-profit">
-                        <th>(=) 稅後淨利</th>
-                        <td id="tNetProfit">0</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th colspan="2">專案損益預估表 (Pro Forma)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>(+) 房地總銷金額 <span style="font-size:0.8rem; color:#999">(單價×銷坪)</span></td>
+                            <td class="num" id="tSales">0</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:20px;">- 土地成本</td>
+                            <td class="num" id="tLandCost">0</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:20px;">- 營建施工費</td>
+                            <td class="num" id="tConstCost">0</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:20px;">- 管銷費用</td>
+                            <td class="num" id="tOverhead">0</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:20px;">- 融資利息 <span style="font-size:0.8rem; color:#C0392B;">(建融動用60%)</span></td>
+                            <td class="num" style="color:#C0392B" id="tInterest">0</td>
+                        </tr>
+                        <tr style="background:#FCF3CF;">
+                            <td style="font-weight:bold; color:#D35400;">(=) 稅前淨利 (EBIT)</td>
+                            <td class="num" style="color:#D35400; font-size:1.1rem;" id="tPreTax">0</td>
+                        </tr>
+                        <tr>
+                            <td>(-) 預估稅負 (土增+房地合一 20%)</td>
+                            <td class="num" style="color:#C0392B" id="tTax">0</td>
+                        </tr>
+                        <tr style="background:#E8F8F5;">
+                            <td style="font-weight:bold; color:#27AE60;">(=) 稅後淨利 (Net Income)</td>
+                            <td class="num" style="color:#27AE60; font-size:1.2rem;" id="tNetProfit">0</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
 
         <div id="tab2" class="section-box">
-            <div class="table-box">
-                <div class="table-header">系統估算邏輯驗證</div>
-                <table class="data-table">
-                    <tr>
-                        <th>基地面積</th>
-                        <td id="vLandArea">0 坪</td>
-                    </tr>
-                    <tr>
-                        <th>法定總樓地板 (容積上限)</th>
-                        <td id="vLegalMax">0 坪</td>
-                    </tr>
-                    <tr>
-                        <th>(+) 免計容積估算 (陽台/屋突)</th>
-                        <td id="vAddOn">0 坪</td>
-                    </tr>
-                    <tr style="background:#F2F4F6">
-                        <th>(=) 系統建議銷售坪數</th>
-                        <td id="vSysEst">0 坪</td>
-                    </tr>
-                    <tr class="row-total" style="border-top:2px solid #F39C12">
-                        <th>(★) 您設定的實際銷坪</th>
-                        <td id="vUserSet">0 坪</td>
-                    </tr>
-                </table>
-                <div style="padding:15px; font-size:0.9rem; color:#666;">
-                    <strong>💡 修正說明：</strong><br>
-                    1. <strong>透天：</strong>免計容積有法規上限。陽台通常不超過該層10%或8m²；屋突面積通常為建築面積1/8。<br>
-                    2. <strong>系統係數下修：</strong>針對透天案，系統預設採用 <strong>1.35~1.40</strong> 倍係數估算（原為1.6），更貼近實務。<br>
-                    3. <strong>準確性：</strong>請直接於左側黃色欄位輸入您的「建照/權狀坪數」，右側報表將以此為準。
+            
+            <div class="card">
+                <div class="card-header">1. 免計容積項目 (建築技術規則)</div>
+                <div class="table-container">
+                    <table class="data-table reg-table">
+                        <tr>
+                            <th width="30%">項目</th>
+                            <th>規定與上限</th>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">陽台</span></td>
+                            <td>每層 ≦ 該層樓地板面積 <strong>10%</strong>。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">梯廳</span></td>
+                            <td>每層 ≦ 該層樓地板面積 <strong>10%</strong> (需有共同梯廳)。<br>註：陽台+梯廳合計 ≦ 15%。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">屋突</span></td>
+                            <td>建築面積的 <strong>1/8 (12.5%)</strong> 或 25 m² 取大者。<br>高層建築可達 15%。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">機電設備</span></td>
+                            <td>含機房、水箱、安全梯間等，合計 ≦ 總容積 <strong>15%</strong>。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">停車空間</span></td>
+                            <td>依法設置之地下停車空間免計容積 (除臨12米路透天一樓車位外)。</td>
+                        </tr>
+                    </table>
                 </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">2. 獎勵容積項目 (都更/危老)</div>
+                <div class="table-container">
+                    <table class="data-table reg-table">
+                        <tr>
+                            <th width="30%">項目</th>
+                            <th>獎勵額度 (上限)</th>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">綠建築</span></td>
+                            <td>鑽石10%、黃金8%、銀6%、銅4%、合格2%。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">智慧建築</span></td>
+                            <td>鑽石10%、黃金8%、銀6%、銅4%、合格2%。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">耐震設計</span></td>
+                            <td>耐震標章 <strong>10%</strong>。性能評估：6% / 4% / 2%。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-bonus">無障礙</span></td>
+                            <td>標章 <strong>5%</strong>。性能評估：4% / 3%。</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-warn">上限規定</span></td>
+                            <td>危老：基準容積 30% + 時程規模 10% = <strong>40%</strong><br>都更：一般 <strong>50%</strong> (1.5倍)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">3. 容積移轉 (古蹟/公保地)</div>
+                <div class="table-container">
+                    <table class="data-table reg-table">
+                        <tr>
+                            <th width="30%">限制項目</th>
+                            <th>內容說明</th>
+                        </tr>
+                        <tr>
+                            <td>移入上限</td>
+                            <td>一般基地移入容積 ≦ 基準容積 <strong>30%</strong>。<br>特定地區(都更/捷運)可達 40~50%。</td>
+                        </tr>
+                        <tr>
+                            <td>接受基地條件</td>
+                            <td>需臨接 <strong>8米</strong> (或10米) 以上計畫道路。<br>非位於山坡地、禁限建區。</td>
+                        </tr>
+                        <tr>
+                            <td>移轉公式</td>
+                            <td>移入容積 = 送出地面積 × (送出公告現值/接受公告現值) × 接受地容積率。</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="tab3" class="section-box">
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">面積計算驗證明細 (單位：坪)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>基地面積</td>
+                            <td class="num" id="vLandArea">0</td>
+                        </tr>
+                        <tr>
+                            <td>(x) 法定容積率</td>
+                            <td class="num" id="vVolRate">0%</td>
+                        </tr>
+                        <tr style="background:#F2F4F6">
+                            <td>(=) 法定容積樓地板面積 (基準)</td>
+                            <td class="num" id="vLegalArea">0</td>
+                        </tr>
+                        <tr>
+                            <td>(+) 免計容積估算 <span style="font-size:0.8rem; color:#999">(透天約1.35倍/大樓1.6倍)</span></td>
+                            <td class="num" id="vAddOn">0</td>
+                        </tr>
+                        <tr style="border-top:2px solid #D35400;">
+                            <td style="font-weight:bold;">系統建議估算值</td>
+                            <td class="num" style="color:#D35400;" id="vSysEst">0</td>
+                        </tr>
+                        <tr style="background:#FEF9E7;">
+                            <td style="font-weight:bold; color:#2C3E50;">(★) 使用者手動設定值</td>
+                            <td class="num" style="font-size:1.2rem; font-weight:bold;" id="vUserSet">0</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -392,19 +444,18 @@
 
 <script>
     // --- 參數 ---
-    const SQM_TO_PING = 0.3025;
-    // 台南公報參考 (銷售建坪造價)
+    const PING_TO_SQM = 3.305785;
+    // 造價參考
     const COST_DB = { 'tou-tian': 10.5, 'da-lou': 14.5 };
 
-    // --- DOM Elements ---
+    // --- DOM ---
     const ui = {
-        sqm: document.getElementById('inSqm'),
-        ping: document.getElementById('outPing'),
+        ping: document.getElementById('inPing'),
+        sqm: document.getElementById('outSqm'),
         type: document.getElementById('inType'),
         bcr: document.getElementById('inBCR'),
-        vol: document.getElementById('inTotalVol'),
+        far: document.getElementById('inFAR'),
         
-        // 核心修正：銷售面積輸入
         realSaleArea: document.getElementById('inRealSaleArea'),
         fbEfficiency: document.getElementById('fbEfficiency'),
         txtEstArea: document.getElementById('txtEstArea'),
@@ -422,14 +473,11 @@
         loanYears: document.getElementById('inLoanYears'),
         repayMethod: document.getElementById('inRepayMethod'),
 
-        landIncBase: document.getElementById('inLandIncBase'),
-        landTax: document.getElementById('inLandTax'),
-
-        // Outputs
         kpiSales: document.getElementById('kpiSales'),
-        kpiTotalCost: document.getElementById('kpiTotalCost'),
+        kpiCost: document.getElementById('kpiCost'),
         kpiROE: document.getElementById('kpiROE'),
 
+        // Tables
         tSales: document.getElementById('tSales'),
         tLandCost: document.getElementById('tLandCost'),
         tConstCost: document.getElementById('tConstCost'),
@@ -439,9 +487,10 @@
         tTax: document.getElementById('tTax'),
         tNetProfit: document.getElementById('tNetProfit'),
 
-        // Verification Tab
+        // Verification
         vLandArea: document.getElementById('vLandArea'),
-        vLegalMax: document.getElementById('vLegalMax'),
+        vVolRate: document.getElementById('vVolRate'),
+        vLegalArea: document.getElementById('vLegalArea'),
         vAddOn: document.getElementById('vAddOn'),
         vSysEst: document.getElementById('vSysEst'),
         vUserSet: document.getElementById('vUserSet')
@@ -458,10 +507,7 @@
         event.currentTarget.classList.add('active');
     }
 
-    function toggleMode() {
-        // 切換模式時重新估算
-        calcBase();
-    }
+    function toggleMode() { calcArea(); }
 
     function autoCost() {
         if(COST_DB[ui.type.value]) {
@@ -471,10 +517,9 @@
     }
 
     function resetDefault() {
-        ui.sqm.value = 172;
-        ui.vol.value = 180;
-        ui.bcr.value = 50;
-        calcBase();
+        ui.ping.value = 52;
+        ui.far.value = 200;
+        calcArea();
     }
 
     function useEstimate() {
@@ -492,7 +537,7 @@
         if (method === 'interest_only') {
             totalInterest = principal * rate * years;
         } else {
-            // 本息攤還 (PMT)
+            // PMT
             let pmt = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
             let totalPayment = pmt * months;
             totalInterest = totalPayment - principal;
@@ -500,77 +545,60 @@
         return totalInterest;
     }
 
-    // --- 1. 基礎面積估算邏輯 ---
-    function calcBase() {
-        let sqm = parseFloat(ui.sqm.value) || 0;
-        let ping = sqm * SQM_TO_PING;
-        ui.ping.value = ping.toFixed(2);
+    // --- Core Logic ---
+    function calcArea() {
+        // 1. Unit Conversion
+        let ping = parseFloat(ui.ping.value) || 0;
+        let sqm = ping * PING_TO_SQM;
+        ui.sqm.value = sqm.toFixed(2);
 
-        let vol = parseFloat(ui.vol.value) / 100 || 0;
-        let bcr = parseFloat(ui.bcr.value) / 100 || 0;
+        let far = parseFloat(ui.far.value) / 100 || 0;
         let type = ui.type.value;
 
-        // 計算容積上限樓地板 (Base FAR Area)
-        let legalMaxArea = ping * vol;
+        // 2. Legal Area (Base)
+        let legalArea = ping * far;
 
-        // 估算免計容積加項
-        let addOnArea = 0;
+        // 3. Estimate Add-on (Factors)
         let factor = 0;
-
         if (type === 'tou-tian') {
-            // 透天邏輯修正：參考用戶反饋 (1.8容積 -> 實際上約 1.36倍地坪)
-            // 假設法定容積內 + 陽台(10%) + 屋突(有限)
-            // 實務經驗：透天係數約在 1.35 ~ 1.45 (含梯間、陽台)
-            // 這裡採用 1.4 作為透天預設估算係數，若容積率低(如180%)，係數可能更低
-            
-            // 使用者案例：180% -> 1.36倍銷坪 (127/93.6 = 1.35)
-            // 系統估算：Base * 1.1 (附屬) + 屋突(每棟約10-15坪)
-            
-            // 這裡改用簡單係數法供參考
-            factor = 1.36; // 依據用戶反饋微調
-            sysEstimatedArea = legalMaxArea * (factor / vol); // 換算回相對於地坪的倍數? 不，直接用容積面積延伸
-            
-            // 更精確：法定容積面積 * 1.15 (含陽台屋突)
-            sysEstimatedArea = legalMaxArea * 1.15;
-            
-            // 若估算出來的單層面積超過建蔽率，需check，但此處做概估即可
-            addOnArea = sysEstimatedArea - legalMaxArea;
-
+            // 透天係數修正：約 1.35 ~ 1.40 (法定容積基礎)
+            // 實務上透天陽台、屋突有限
+            factor = 1.36; 
         } else {
-            // 大樓：公設比高，係數較大
-            factor = 1.6;
-            sysEstimatedArea = legalMaxArea * factor; // 含大公、小公、車位
-            addOnArea = sysEstimatedArea - legalMaxArea;
+            // 大樓係數：約 1.6 ~ 1.7 (高公設比、車位)
+            factor = 1.65;
         }
 
-        // 更新 UI 提示
-        ui.txtEstArea.innerText = `系統估算值：${sysEstimatedArea.toFixed(2)} 坪`;
+        sysEstimatedArea = legalArea * factor; // 這是「預估」總銷坪
+        let addOn = sysEstimatedArea - legalArea;
+
+        // UI Update
+        ui.txtEstArea.innerText = sysEstimatedArea.toFixed(2);
         
-        // 若使用者還沒輸入過，預設填入估算值 (第一次)
-        // 但為了讓使用者有感，這裡不自動覆蓋，除非值為0
+        // Verification Tab Update
+        ui.vLandArea.innerText = ping.toFixed(2);
+        ui.vVolRate.innerText = (far*100) + "%";
+        ui.vLegalArea.innerText = legalArea.toFixed(2);
+        ui.vAddOn.innerText = addOn.toFixed(2);
+        ui.vSysEst.innerText = sysEstimatedArea.toFixed(2);
+
+        // Auto fill if empty (optional, better let user fill)
         if (parseFloat(ui.realSaleArea.value) === 0) {
             ui.realSaleArea.value = sysEstimatedArea.toFixed(2);
         }
 
-        // Render Verification Tab
-        ui.vLandArea.innerText = ping.toFixed(2) + " 坪";
-        ui.vLegalMax.innerText = legalMaxArea.toFixed(2) + " 坪";
-        ui.vAddOn.innerText = addOnArea.toFixed(2) + " 坪";
-        ui.vSysEst.innerText = sysEstimatedArea.toFixed(2) + " 坪";
-
         calcFinance();
     }
 
-    // --- 2. 財務精算 (依據手動輸入的銷坪) ---
     function calcFinance() {
         let saleArea = parseFloat(ui.realSaleArea.value) || 0;
         let ping = parseFloat(ui.ping.value) || 0;
 
-        // Update Efficiency Feedback
+        // Efficiency Feedback
         if(ping > 0) {
             let eff = saleArea / ping;
-            ui.fbEfficiency.innerText = `坪效係數：${eff.toFixed(2)} 倍`;
-            ui.vUserSet.innerText = saleArea.toFixed(2) + " 坪";
+            ui.fbEfficiency.innerText = `坪效：${eff.toFixed(2)} 倍`;
+            ui.vUserSet.innerText = saleArea.toFixed(2);
         }
 
         // Revenue
@@ -578,17 +606,17 @@
         let parkingSales = parseFloat(ui.parkingSales.value) || 0;
         let totalSales = (saleArea * price) + parkingSales;
 
-        // Direct Cost
+        // Direct Costs
         let landUnitPrice = parseFloat(ui.landCost.value) || 0;
         let totalLandCost = ping * landUnitPrice;
 
         let constUnitPrice = parseFloat(ui.constCost.value) || 0;
-        let totalConstCost = saleArea * constUnitPrice; // 依銷坪計價
+        let totalConstCost = saleArea * constUnitPrice; 
 
         let overheadRate = (parseFloat(ui.overhead.value) || 0) / 100;
         let totalOverhead = totalSales * overheadRate;
 
-        // Interest
+        // Financing
         let lAmt = parseFloat(ui.landLoan.value) || 0;
         let lRate = (parseFloat(ui.landRate.value) || 0);
         let cAmt = parseFloat(ui.constLoan.value) || 0;
@@ -597,30 +625,26 @@
         let repayMethod = ui.repayMethod.value;
 
         let lInt = calculateLoanInterest(lAmt, lRate, years, repayMethod);
-        // 建融動用率 60%
-        let cInt = calculateLoanInterest(cAmt, cRate, years, repayMethod) * 0.6;
+        let cInt = calculateLoanInterest(cAmt, cRate, years, repayMethod) * 0.6; // 建融動用 60%
         let totalInterest = lInt + cInt;
 
-        // Profit
+        // Total
         let totalCost = totalLandCost + totalConstCost + totalOverhead + totalInterest;
         let preTax = totalSales - totalCost;
 
-        // Tax
-        let landInc = parseFloat(ui.landIncBase.value) || 0;
-        let landTax = parseFloat(ui.landTax.value) || 0;
-        let taxable = preTax - landInc;
-        if(taxable < 0) taxable = 0;
-        let houseTax = taxable * 0.2;
-        let totalTax = landTax + houseTax;
-        let netProfit = preTax - totalTax;
+        // Tax (Simplified for Business)
+        // 營所稅 20% on EBIT (Simplified) + Land Tax
+        // *實際房地合一需扣除土地漲價總數額，此處做保守估計
+        let tax = preTax * 0.2; 
+        let netProfit = preTax - tax;
 
-        // KPI
+        // ROI
         let equity = totalCost - (lAmt + cAmt);
         let roe = (equity > 0) ? (netProfit / equity) * 100 : 0;
 
-        // Render
+        // Render Tables
         ui.kpiSales.innerText = format(totalSales);
-        ui.kpiTotalCost.innerText = format(totalCost);
+        ui.kpiCost.innerText = format(totalCost);
         ui.kpiROE.innerText = roe.toFixed(1) + "%";
 
         ui.tSales.innerText = format(totalSales);
@@ -629,12 +653,12 @@
         ui.tOverhead.innerText = format(totalOverhead);
         ui.tInterest.innerText = format(totalInterest);
         ui.tPreTax.innerText = format(preTax);
-        ui.tTax.innerText = format(totalTax);
+        ui.tTax.innerText = format(tax);
         ui.tNetProfit.innerText = format(netProfit);
     }
 
     // Init
-    calcBase();
+    calcArea();
 </script>
 
 </body>
